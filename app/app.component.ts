@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
 export class Student {
 id: number;
-firstName: string;
-lastName: string;
+name: string;
 }
 
 const STUDENTS: Student[] = [
@@ -25,17 +24,18 @@ const STUDENTS: Student[] = [
     <h1>{{title}}</h1>
     <h2>Students</h2>
         <ul class="heroes">
-        <li *ngFor="let student of students">
+        <li *ngFor="let student of students" (click)="onSelect(student)" [class.selected]="student === selectedStudent">
     <span class="badge">{{student.id}}</span>
     {{student.name}}
         </li>
     </ul>
-    <div>
-        <label>Id:</label>{{student.id}}
-    </div>
+    <div *ngIf="selectedStudent">
+    <h2>Imie: {{selectedStudent.name}} Id: {{selectedStudent.id}} </h2>
     <div>
         <label>name:</label>
-        <input [(ngModel)]="student.name" placeholder="Name">
+        <input [(ngModel)]="selectedStudent.name" placeholder="Name">
+        </div>
+    
     </div>`,
     
     styles: [`
@@ -94,9 +94,10 @@ const STUDENTS: Student[] = [
 export class AppComponent {
   title = 'Akademia 108 - Lista studetow';
   students= STUDENTS;
-    
-  student: Student = {
-    id: 10;
-    name: "Klaudia Przespolewska";
-    };
+  selectedStudent : Student;    
+
+onSelect(student: Student): void {
+  this.selectedStudent = student;
+}
+  
 }
